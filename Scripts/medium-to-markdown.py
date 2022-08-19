@@ -2,8 +2,7 @@ import copy
 import subprocess
 import re
 import requests
-from bs4 import BeautifulSoup
-
+import os
 
 def fetch_gist(url):
     """
@@ -98,7 +97,7 @@ if __name__ == "__main__":
 
         new_content = (
             f"""---
-published: true
+draft: false
 title: "{title.replace('-', ' ').title()}"
 date: {date}
 categories:
@@ -108,10 +107,14 @@ categories:
 """
             + new_content
         )
+
         # Save the modified post
-        with open(post_file_name, "w") as fout:
+        writePath = './Posts/' + post_file_name
+        with open(writePath, "w") as fout:
             fout.write(new_content)
         print(f"Post saved as markdown to {post_file_name}")
+
+        os.remove('medium-to-markdown_mod.js')
 
     # Report errors otherwise
     except Exception as e:
